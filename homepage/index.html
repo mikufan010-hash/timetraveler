@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Web Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/homepage.css" />
+</head>
+<body>
+
+  <!-- ── DESKTOP ── -->
+  <div class="desktop">
+
+    <!-- Icon: 1990 -->
+    <div class="icon" onclick="openWin('win1990')">
+      <div class="icon-img era-1990">
+        <div class="monitor">
+          <div class="monitor-screen">1990</div>
+          <div class="monitor-stand"></div>
+          <div class="monitor-base"></div>
+        </div>
+      </div>
+      <div class="icon-label">1990s Web</div>
+    </div>
+
+    <!-- Icon: 2000 -->
+    <div class="icon" onclick="openWin('win2000')">
+      <div class="icon-img era-2000">
+        <div class="monitor">
+          <div class="monitor-screen">2000</div>
+          <div class="monitor-stand"></div>
+          <div class="monitor-base"></div>
+        </div>
+      </div>
+      <div class="icon-label">2000s Web</div>
+    </div>
+
+    <!-- Icon: 2010 -->
+    <div class="icon" onclick="openWin('win2010')">
+      <div class="icon-img era-2010">
+        <div class="monitor">
+          <div class="monitor-screen">2010</div>
+          <div class="monitor-stand"></div>
+          <div class="monitor-base"></div>
+        </div>
+      </div>
+      <div class="icon-label">2010s Web</div>
+    </div>
+
+  </div>
+
+  <!-- ── TASKBAR ── -->
+  <div class="taskbar">
+    <div class="start-btn">
+      <div class="start-logo">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      Start
+    </div>
+    <div class="tb-divider"></div>
+    <div class="tb-clock" id="clock">00:00</div>
+  </div>
+
+  <!-- ── POPUP: 1990 ── -->
+  <div class="window-overlay" id="win1990">
+    <div class="win-window">
+      <div class="win-titlebar">
+        <span>📁 1990s Web</span>
+        <div class="win-titlebar-btns">
+          <div class="win-btn" onclick="closeWin('win1990')">_</div>
+          <div class="win-btn">□</div>
+          <div class="win-btn" onclick="closeWin('win1990')">✕</div>
+        </div>
+      </div>
+      <div class="win-body">
+        <p>Welcome to the<br>1990s Web Era.<br><br>Geocities. Blink tags.<br>Under construction GIFs.</p>
+        <a class="win-open-btn" href="../1990s/index.html">Open →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── POPUP: 2000 ── -->
+  <div class="window-overlay" id="win2000">
+    <div class="win-window">
+      <div class="win-titlebar">
+        <span>📁 2000s Web</span>
+        <div class="win-titlebar-btns">
+          <div class="win-btn" onclick="closeWin('win2000')">_</div>
+          <div class="win-btn">□</div>
+          <div class="win-btn" onclick="closeWin('win2000')">✕</div>
+        </div>
+      </div>
+      <div class="win-body">
+        <p>Welcome to the<br>2000s Web Era.<br><br>Flash. MySpace.<br>Web 2.0 gradients.</p>
+        <a class="win-open-btn" href="../2000s/index.html">Open →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── POPUP: 2010 ── -->
+  <div class="window-overlay" id="win2010">
+    <div class="win-window">
+      <div class="win-titlebar">
+        <span>📁 2010s Web</span>
+        <div class="win-titlebar-btns">
+          <div class="win-btn" onclick="closeWin('win2010')">_</div>
+          <div class="win-btn">□</div>
+          <div class="win-btn" onclick="closeWin('win2010')">✕</div>
+        </div>
+      </div>
+      <div class="win-body">
+        <p>Welcome to the<br>2010s Web Era.<br><br>Flat design. Bootstrap.<br>Mobile-first everything.</p>
+        <a class="win-open-btn" href="../2010s/index.html">Open →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Clock */
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    /* Window open/close */
+    function openWin(id) {
+      document.getElementById(id).classList.add('open');
+    }
+    function closeWin(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    /* Click outside window to close */
+    document.querySelectorAll('.window-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) closeWin(this.id);
+      });
+    });
+  </script>
+
+</body>
+</html>
