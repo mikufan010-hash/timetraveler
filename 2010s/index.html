@@ -1,90 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Time Traveler | 2010s Version</title>
-	<link rel="stylesheet" href="../assets/css/2010s.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Handmade Web — J. R. Carpenter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #e21e80;
+      --hot-pink: #ff1493;
+      --purple: #9b4fc8;
+      --lavender: #da8fff;
+      --light-purple: #eec8ff;
+      --dark-purple: #1e0038;
+      --deeper: #120025;
+      --cyan: #00e5ff;
+      --yellow: #ffe566;
+      --cream: #fff5fe;
+      --pixel: 'Press Start 2P', monospace;
+      --vt: 'VT323', monospace;
+      --mono: 'Inconsolata', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--deeper); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border: 2px solid var(--pink); }
+
+    body {
+      background: var(--deeper);
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 17px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.07) 2px,
+        rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Stars */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      animation: tw 2.5s infinite alternate;
+    }
+    @keyframes tw {
+      from { opacity: 0.15; }
+      to   { opacity: 0.9; }
+    }
+
+    /* ── TOP MARQUEE ── */
+    .marquee-bar {
+      background: var(--hot-pink);
+      border-bottom: 3px solid var(--yellow);
+      padding: 5px 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+    .marquee-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll 22s linear infinite;
+      font-family: var(--pixel);
+      font-size: 8px;
+      color: var(--yellow);
+      letter-spacing: 2px;
+    }
+    .marquee-inner span { padding: 0 32px; }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 36px 0 24px;
+      border-bottom: 4px solid var(--purple);
+      text-align: center;
+    }
+
+    .site-label {
+      font-family: var(--pixel);
+      font-size: clamp(7px, 1.5vw, 10px);
+      color: var(--lavender);
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    h1 {
+      font-family: var(--pixel);
+      font-size: clamp(13px, 3vw, 22px);
+      color: var(--pink);
+      text-shadow: 3px 3px 0 var(--dark-purple), 0 0 24px var(--hot-pink);
+      line-height: 1.7;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 3px 3px 0 var(--dark-purple), 0 0 10px var(--hot-pink); }
+      to   { text-shadow: 3px 3px 0 var(--dark-purple), 0 0 36px var(--hot-pink), 0 0 60px var(--lavender); }
+    }
+
+    .byline {
+      font-family: var(--vt);
+      font-size: clamp(18px, 4vw, 26px);
+      color: var(--lavender);
+      margin-top: 12px;
+      letter-spacing: 3px;
+    }
+
+    /* ── PIXEL DIVIDER ── */
+    .px-div {
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--pink)    0, var(--pink)    8px,
+        var(--purple)  8px, var(--purple) 16px,
+        var(--lavender) 16px, var(--lavender) 24px,
+        var(--hot-pink) 24px, var(--hot-pink) 32px
+      );
+      margin: 28px 0;
+    }
+
+    /* ── ARTICLE ── */
+    article {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    /* Each "block" = one keyed section */
+    .section-block {
+      padding: 28px 0;
+      border-bottom: 2px dashed rgba(155,79,200,0.35);
+    }
+    .section-block:last-child { border-bottom: none; }
+
+    /* Section key label — FLEX row */
+    .section-key {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .key-tag {
+      font-family: var(--pixel);
+      font-size: clamp(6px, 1.3vw, 8px);
+      background: var(--purple);
+      color: var(--yellow);
+      padding: 5px 10px;
+      border: 2px solid var(--lavender);
+      box-shadow: 2px 2px 0 var(--dark-purple);
+      white-space: nowrap;
+    }
+
+    .key-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), transparent);
+      min-width: 20px;
+    }
+
+    /* Body text */
+    p {
+      font-family: var(--mono);
+      font-size: clamp(14px, 2.5vw, 17px);
+      color: var(--cream);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    /* Blockquote */
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155,79,200,0.18);
+      border-left: 5px solid var(--pink);
+      box-shadow: 3px 3px 0 rgba(255,20,147,0.25);
+    }
+
+    blockquote p {
+      font-family: var(--vt);
+      font-size: clamp(18px, 3.5vw, 24px);
+      color: var(--light-purple);
+      line-height: 1.6;
+    }
+
+    blockquote cite {
+      display: block;
+      font-family: var(--pixel);
+      font-size: clamp(5px, 1.1vw, 7px);
+      color: var(--lavender);
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
+
+    /* Inline links */
+    a {
+      color: var(--pink);
+      text-decoration: none;
+      border-bottom: 2px solid var(--hot-pink);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    a:hover {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    /* Inline emphasis */
+    em {
+      color: var(--lavender);
+      font-style: italic;
+    }
+
+    strong {
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pull {
+      font-family: var(--vt);
+      font-size: clamp(22px, 5vw, 36px);
+      color: var(--pink);
+      text-align: center;
+      padding: 20px 10px;
+      line-height: 1.4;
+      text-shadow: 2px 2px 0 var(--dark-purple);
+      border-top: 3px solid var(--purple);
+      border-bottom: 3px solid var(--purple);
+      margin: 24px 0;
+    }
+
+    /* ── LINKS LIST ── */
+    .links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .links-row a {
+      font-family: var(--pixel);
+      font-size: clamp(5px, 1.1vw, 7px);
+      background: rgba(155,79,200,0.25);
+      border: 2px solid var(--purple);
+      padding: 5px 10px;
+      color: var(--lavender);
+      box-shadow: 2px 2px 0 var(--dark-purple);
+    }
+    .links-row a:hover {
+      background: var(--hot-pink);
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 4px solid var(--purple);
+      padding: 24px 0 10px;
+      text-align: center;
+    }
+
+    .footer-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      font-family: var(--pixel);
+      font-size: clamp(5px, 1.1vw, 7px);
+      padding: 4px 9px;
+      border: 2px solid;
+      letter-spacing: 1px;
+    }
+    .b1 { background: var(--hot-pink); color: var(--cream); border-color: var(--cream); }
+    .b2 { background: var(--purple); color: var(--yellow); border-color: var(--yellow); }
+    .b3 { background: var(--dark-purple); color: var(--lavender); border-color: var(--lavender); }
+
+    .footer-text {
+      font-family: var(--vt);
+      font-size: clamp(15px, 3vw, 20px);
+      color: var(--lavender);
+      line-height: 1.7;
+    }
+
+    .blink { animation: bk 1s step-end infinite; }
+    @keyframes bk { 50% { opacity: 0; } }
+
+    /* ── MEDIA QUERIES ── */
+    @media (max-width: 600px) {
+      .page { padding: 0 14px 40px; }
+      blockquote { padding: 12px 14px; }
+      .pull { font-size: 22px; padding: 14px 6px; }
+    }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 11px; }
+      .section-key { gap: 8px; }
+    }
+
+    @media (min-width: 900px) {
+      body { font-size: 18px; }
+      .page { padding: 0 32px 60px; }
+    }
+  </style>
 </head>
 <body>
 
-	<nav>
-		<a href="../">Homepage</a>
-		<a href="../1990s/">1990s Version</a>
-		<a href="../2000s/">2000s Version</a>
-		<a href="./">2010s Version</a>
-	</nav>
-	
-	The term 'handmade' usually refers to objects made by hand or by using simple tools rather than machines. The result may be homely — as in a child's clay ashtray — or exquisite — as in a pair of bespoke brogues.
+<div class="starfield" id="sf"></div>
 
-	I evoke the term 'handmade web' to refer to web pages coded by hand rather than by software; web pages made and maintained by individuals rather than by businesses or corporations; web pages which are provisional, temporary, or one-of-a-kind; web pages which challenge conventions of reading, writing, design, ownership, privacy, security, or identity.
+<div class="marquee-bar">
+  <div class="marquee-inner">
+    <span>✦ A HANDMADE WEB ✦</span><span>J. R. CARPENTER · MARCH 2015</span>
+    <span>☆ HAND-CODED WITH LOVE ☆</span><span>✦ THE WEB IS STILL ALIVE ✦</span>
+    <span>☆ SLOW &amp; SMALL AS RESISTANCE ☆</span><span>✦ A HANDMADE WEB ✦</span>
+    <span>J. R. CARPENTER · MARCH 2015</span><span>☆ HAND-CODED WITH LOVE ☆</span>
+    <span>✦ THE WEB IS STILL ALIVE ✦</span><span>☆ SLOW &amp; SMALL AS RESISTANCE ☆</span>
+  </div>
+</div>
 
-	Handmade web pages flourished in the mid-to-late-1990s, in the brief period after the academic web and before the corporate web. ‘Handmade’ is by no means the only or best term to define the web of this period.
+<div class="page">
 
-	In her essay, A Vernacular Web (2005), Olia Lialina describes the web of the mid-1990s as:
+  <header>
+    <span class="site-label">✦ ESSAY · MARCH 2015 ✦</span>
+    <h1>A Handmade Web</h1>
+    <div class="byline">J. R. Carpenter</div>
+  </header>
 
-	bright, rich, personal, slow and under construction. It was a web of sudden connections and personal links. Pages were built on the edge of tomorrow, full of hope for a faster connection and a more powerful computer... it was a web of amateurs soon to be washed away by dot.com ambitions, professional authoring tools and guidelines designed by usability experts.
+  <div class="px-div"></div>
 
-	For more information on Olia Lialina and Dragan Espenschied's excellent research on the amateur web, see: One Terabyte of Kilobyte Age: Digging through the Geocities Torrent.
+  <article>
 
-	I evoke the term 'handmade web' in order to make a correlation between handmade web pages and handmade print materials, such as zines, pamphlets, and artists books.
+    <!-- BLOCK 1: Definition -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">✦ DEFINITION</span>
+        <span class="key-line"></span>
+      </div>
+      <p>The term <em>'handmade'</em> usually refers to objects made by hand or by using simple tools rather than machines. The result may be homely — as in a child's clay ashtray — or exquisite — as in a pair of bespoke brogues.</p>
+      <p>I evoke the term <strong>'handmade web'</strong> to refer to web pages coded by hand rather than by software; web pages made and maintained by individuals rather than by businesses or corporations; web pages which are provisional, temporary, or one-of-a-kind; web pages which challenge conventions of reading, writing, design, ownership, privacy, security, or identity.</p>
+      <p>Handmade web pages flourished in the mid-to-late-1990s, in the brief period after the academic web and before the corporate web. 'Handmade' is by no means the only or best term to define the web of this period.</p>
+    </div>
 
-	I made my first web-based work in 1995. The impetus for Fishes & Flying Things came from the material practices of fine art and book-making. The text evolved from an installation art exhibition I had on at the time. From this text, I created a small book-work which was meant to tell a circular story but when people got to the end they stopped reading because that’s the way books work. In the web version, the last page linked to the first; the story circled round and round. Of the installation, no physical evidence remains. Of the book-work, only one copy. The QuarkExpress file is stored on a 44 MB SyQuest cartridge which I still own, but the contents of which I can no longer access. The handmade website, on the other hand, is still online and it still works.
+    <!-- BLOCK 2: Vernacular Web quote -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">☆ THE VERNACULAR WEB</span>
+        <span class="key-line"></span>
+      </div>
+      <p>In her essay, <em>A Vernacular Web</em> (2005), Olia Lialina describes the web of the mid-1990s as:</p>
+      <blockquote>
+        <p>bright, rich, personal, slow and under construction. It was a web of sudden connections and personal links. Pages were built on the edge of tomorrow, full of hope for a faster connection and a more powerful computer… it was a web of amateurs soon to be washed away by dot.com ambitions, professional authoring tools and guidelines designed by usability experts.</p>
+        <cite>— Olia Lialina, A Vernacular Web (2005)</cite>
+      </blockquote>
+      <p>For more information on Olia Lialina and Dragan Espenschied's excellent research on the amateur web, see: <a href="#">One Terabyte of Kilobyte Age: Digging through the Geocities Torrent</a>.</p>
+      <p>I evoke the term 'handmade web' in order to make a correlation between handmade web pages and handmade print materials, such as zines, pamphlets, and artists books.</p>
+    </div>
 
-	The handmade web emerged at a time when print and digital enjoyed a more symbiotic relationship. This is evident in the early output of the trAce Online Writing Centre founded at Nottingham Trent University in 1995. Over the next decade trAce evolved into one of the most influential online writing communities in the world. trAce’s first output was a word-processed photocopied booklet which contained links to websites distributing journals and zines. Fittingly, trAce’s last output was also a print booklet, in which it is stated:
+    <!-- BLOCK 3: Origin + persistence -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">✦ ORIGINS · 1995</span>
+        <span class="key-line"></span>
+      </div>
+      <p>I made my first web-based work in 1995. The impetus for <em>Fishes &amp; Flying Things</em> came from the material practices of fine art and book-making. The text evolved from an installation art exhibition I had on at the time. From this text, I created a small book-work which was meant to tell a circular story but when people got to the end they stopped reading because that's the way books work. In the web version, the last page linked to the first; the story circled round and round.</p>
+      <p>Of the installation, no physical evidence remains. Of the book-work, only one copy. The QuarkExpress file is stored on a 44 MB SyQuest cartridge which I still own, but the contents of which I can no longer access. <strong>The handmade website, on the other hand, is still online and it still works.</strong></p>
+    </div>
 
-	The trAce community embraced both camps, and some early chatlogs contain lively discussions about the use of mixed media in writing… The creative hypertexts and hypermedia in the trAce Archive can easily be compared to the multifarious pages of an artist’s book. (PDF trAces: A Commemoration of Ten Years of Artistic Innovation at trAce, page 14)
+    <!-- BLOCK 4: trAce -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">☆ trAce WRITING CENTRE</span>
+        <span class="key-line"></span>
+      </div>
+      <p>The handmade web emerged at a time when print and digital enjoyed a more symbiotic relationship. This is evident in the early output of the <em>trAce Online Writing Centre</em> founded at Nottingham Trent University in 1995. Over the next decade trAce evolved into one of the most influential online writing communities in the world. trAce's first output was a word-processed photocopied booklet which contained links to websites distributing journals and zines. Fittingly, trAce's last output was also a print booklet, in which it is stated:</p>
+      <blockquote>
+        <p>The trAce community embraced both camps, and some early chatlogs contain lively discussions about the use of mixed media in writing… The creative hypertexts and hypermedia in the trAce Archive can easily be compared to the multifarious pages of an artist's book.</p>
+        <cite>— PDF trAces: A Commemoration of Ten Years of Artistic Innovation at trAce, p. 14</cite>
+      </blockquote>
+      <p>One of the many interesting things about the online archive of the trAce Online Writing Centre is how much it reflects the context of the creation and dissemination of its contents. Whereas archives held in museums or libraries generally contain artifacts created elsewhere — manuscripts illuminated in a monastery, for example, or photographs developed in a darkroom — the handmade web pages contained in this online archive continue to exist in the medium within which they were created. That said, the frames through which we view them continue to change.</p>
+    </div>
 
-	One of the many interesting things about the online archive of the trAce Online Writing Centre is how much it reflects the context of the creation and dissemination of its contents. Whereas archives held in museums or libraries generally contain artifacts created elsewhere — manuscripts illuminated in a monastery, for example, or photographs developed in a darkroom — the handmade web pages contained in this online archive continue to exist in the medium within which they were created. That said, the frames through which we view them continue to change.
+    <!-- BLOCK 5: Temporal paradox -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">✦ TEMPORAL PARADOX</span>
+        <span class="key-line"></span>
+      </div>
+      <p>In <em>"Media Archaeology: Method and Machine versus History and Narrative of Media"</em> (2011) Wolfgang Ernst observes: "If a radio from a museum collection is reactivated to play broadcast channels of the present, it changes its status: it is not a historical object anymore but actively generates sensual and informational presence."</p>
+      <p>Similarly, when viewing old web pages in modern browsers we are confronted with a temporal paradox. Layer upon layer of dated web-design aesthetics overlap and peel like wallpaper, revealing earlier versions beneath. Pages optimised for lower resolutions now take less than a third of the screen. Ghosts of browsers past mingle with occasional page errors, dead links, and missing images. Sound files play automatically. Warnings abound, issued from earlier eras, addressed to readers who are not us.</p>
+      <p>For example, M.D. Coverley's <em>The Personalization of Complexity</em> (2001) "explores the ways in which each of our personal computers have become idiosyncratic, individualized entities, only sometimes manageable by the owners." Fittingly, the piece itself warns that it is viewable only on Level 4 and 5 Microsoft Internet Explorer and Level 4 Netscape. Netscape 6 will not support many of the features in this essay.</p>
 
-	In "Media Archaeology: Method and Machine versus History and Narrative of Media" (2011) Wolfgang Ernst observes: "If a radio from a museum collection is reactivated to play broadcast channels of the present, it changes its status: it is not a historical object anymore but actively generates sensual and informational presence." Similarly, when viewing old web pages in modern browsers we are confronted with a temporal paradox. Layer upon layer of dated web-design aesthetics overlap and peel like wallpaper, revealing earlier versions beneath. Pages optimised for lower resolutions now take less than a third of the screen. Ghosts of browsers past mingle with occasional page errors, dead links, and missing images. Sound files play automatically. Warnings abound, issued from earlier eras, addressed to readers who are not us.
+      <div class="pull">These are not artifacts of a dead web but rather, signposts on a map of a living web pointing to a web as it once was, a web in progress, a web in the making.</div>
+    </div>
 
-	For example, M.D. Coverley’s The Personalization of Complexity (2001) "explores the ways in which each of our personal computers have become idiosyncratic, individualized entities, only sometimes manageable by the owners." Fittingly, the piece itself warns that it is viewable only on Level 4 and 5 Microsoft Internet Explorer and Level 4 Netscape. Netscape 6 will not support many of the features in this essay.
+    <!-- BLOCK 6: Ongoing engagement -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">☆ ONGOING ENGAGEMENT</span>
+        <span class="key-line"></span>
+      </div>
+      <p>I evoke the term 'handmade web' in order to advocate for an ongoing active engagement with the making of web pages and of web policies.</p>
+      <p>In <em>The Web We Lost</em> (2012), Anil Dash writes: "In the early days of the social web, there was a broad expectation that regular people might own their own identities by having their own websites, instead of being dependent on a few big sites to host their online identity."</p>
+      <p>In February 2015 the online journal QUARTZ published an article with the provocative headline: <em>Millions of Facebook users have no idea they're using the internet.</em> As the article states: "This is more than a matter of semantics. The expectations and behaviors of the next billion people to come online will have profound effects on how the internet evolves."</p>
+      <p>In October 2014 the online journal GIZMODO published an article heralding <em>The Great Web 1.0 Revival.</em> Its author Kyle Chayka observed:</p>
+      <blockquote>
+        <p>The booming size of today's mainstream social networks and the constant level of noise we have to deal with has inspired a sudden return to a time when the internet was quieter, safer, and more intimate… We're nostalgic for the close-knit, DIY nature of the early web, where everything was smaller...</p>
+        <cite>— Kyle Chayka, GIZMODO (2014)</cite>
+      </blockquote>
+      <p>The DIY aesthetics and practices of the mid-1990s have been embraced by the anti-social network <strong>TILDE.CLUB</strong>, which hosts a small community of users on a single unix computer. For some, TILDE.CLUB serves as a platform for revisiting amateur web aesthetics in a contemporary context. For example, on her page, Olia Lialina invites users to view a new net art work <em>640x480 — a 4-tab browser installation.</em> For many others however, TILDE.CLUB has served as little more than a hip territory to occupy. Many pages remain blank.</p>
 
-	These are not artifacts of a dead web but rather, signposts on a map of a living web pointing to a web as it once was, a web in progress, a web in the making.
+      <div class="links-row">
+        <a href="http://tilde.club/~nickc/">tilde.club/~nickc/</a>
+        <a href="http://tilde.club/~bwalker/">tilde.club/~bwalker/</a>
+        <a href="http://tilde.club/~willy/">tilde.club/~willy/</a>
+      </div>
 
-	I evoke the term 'handmade web' in order to advocate for an ongoing active engagement with the making of web pages and of web policies.
+      <p>In other corners of the internet, Web 1.0 aesthetics have never disappeared. My own website, including this page, which uses fixed-width table cells, is based on a template I created in HomeSite in 1997.</p>
+      <p>Web 1.0 aesthetics persist in source code and stated objectives of the massive <strong>Ubu Web</strong> site, an "independent resource dedicated to all strains of the avant-garde, ethnopoetics, and outsider arts." On 16 December 2014, the founder boasted on Twitter that "the whole damn site is still hand-coded in html 1.0 in bbedit, from templates made in 1996."</p>
+      <p><em>I shall put off updating my website templates until out-of-date design is no longer cool.</em></p>
+    </div>
 
-	In The Web We Lost (2012), Anil Dash writes: "In the early days of the social web, there was a broad expectation that regular people might own their own identities by having their own websites, instead of being dependent on a few big sites to host their online identity."
+    <!-- BLOCK 7: Manual labour -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">✦ MANUAL LABOUR</span>
+        <span class="key-line"></span>
+      </div>
+      <p>I evoke the term 'handmade web' in order to draw attention both to the manual labour involved in the composition of web pages, and the functioning of the web page itself as a <em>'manual'</em>, a <em>'handbook'</em>, a set of instructions required for a computer program to run.</p>
+      <p>For most of its history web pages have been read on desktop or laptop computers. Readers have had the option of right-clicking on any page, selecting View Page Source, copying, pasting, and re-writing the source code. <strong>In this manner, readers become writers.</strong></p>
+      <p>In February 2015, Matthew Rothberg created a website called <em>Unindexed</em> which continuously searched Google for itself. It survived for 22 days before being indexed, at which point it was permanently deleted. Rothberg has since shared the source code on GitHub, so you too can create a website which self-destructs the moment Google indexes it.</p>
+      <p>Dozens of readers have re-written the source code of Nick Montfort's <em>Taroko Gorge</em> (2008). For many, this was their first experience 'making' a computer-generated text.</p>
+      <p>I have rewritten Taroko Gorge three times. Further to the close relation between the handmade web and ephemeral print materials, excerpts of output and source code from the first iteration, <em>Gorge</em> (2010), were published in my very small press print book <em>GENERATION[S]</em> (2010), which, I believe, is now only available as a PDF. Gorge is a never-ending tract of computer-generated text spewing verse approximations, poetic paroxysms on food, consumption, decadence, and desire.</p>
+    </div>
 
-	In February 2015 the online journal QUARTZ published an article with the provocative headline: Millions of Facebook users have no idea they’re using the internet. As the article states: "This is more than a matter of semantics. The expectations and behaviors of the next billion people to come online will have profound effects on how the internet evolves."
+    <!-- BLOCK 8: The body -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">☆ THE PHYSICAL BODY</span>
+        <span class="key-line"></span>
+      </div>
+      <p>I evoke the term 'handmade web' in order to draw attention to the physical body.</p>
+      <p>Consider the manual labour carried out by the mouse hand in Daniel Eatock's <em>The One Mile Scroll</em> (2008). A few entries appear at the top of the screen — Denver, The Mile High City — my grandfather's grave, Denver — after that we scroll and scroll. The hand is made to work. Through the labour of the body the virtual space of the browser window is transformed into an actual, physical distance.</p>
+      <p>Ironically, handheld devices have distanced us from the handmade web. In <em>Reading Writing Interfaces: From the Digital to the Bookbound</em> (2014), Lori Emerson argues: "The iPad works because users can't know how it works" (15). Reading the web on an iPhone, iPad, or similar device, readers do not have the option of viewing the page source. The iPad provides consumers with access to materials created by others, but cannot easily be used as a tool in the handcrafting of new materials.</p>
+    </div>
 
-	In October 2014 the online journal GIZMODO published an article heralding The Great Web 1.0 Revival. Its author Kyle Chayka observed:
+    <!-- BLOCK 9: Resistance -->
+    <div class="section-block">
+      <div class="section-key">
+        <span class="key-tag">✦ SLOWNESS &amp; RESISTANCE</span>
+        <span class="key-line"></span>
+      </div>
+      <p>I evoke the term 'handmade web' to suggest <strong>slowness and smallness as forms of resistance.</strong></p>
+      <p>In today's highly commercialised web of multinational corporations, proprietary applications, read-only devices, search algorithms, Content Management Systems, WYSIWYG editors, and digital publishers it becomes an increasingly radical act to hand-code and self-publish experimental web art and writing projects.</p>
 
-	The booming size of today's mainstream social networks and the constant level of noise we have to deal with has inspired a sudden return to a time when the internet was quieter, safer, and more intimate… We're nostalgic for the close-knit, DIY nature of the early web, where everything was smaller...
+      <div class="pull">The more proprietary, predatory, and puerile a place the web becomes, the more committed I am to using it in poetic and intransigent ways.</div>
+    </div>
 
-	The DIY aesthetics and practices of the mid-1990s have been embraced by the anti-social network TILDE.CLUB, which hosts a small community of users on a single unix computer. For some, TILDE.CLUB serves as a platform for revisiting amateur web aesthetics in a contemporary context. For example, on her page, Olia Lialina invites users to view a new net art work 640x480 - a 4-tab browser installation. For many others however, TILDE.CLUB has served as little more than a hip territory to occupy. Many pages remain blank.
+  </article>
 
-	http://tilde.club/~nickc/ http://tilde.club/~bwalker/ http://tilde.club/~willy/
+  <div class="px-div"></div>
 
-	In other corners of the internet, Web 1.0 aesthetics have never disappeared. My own website, including this page, which uses fixed-width table cells, is based on a template I created in HomeSite in 1997.
+  <footer>
+    <div class="footer-badges">
+      <span class="badge b1">HAND-CODED</span>
+      <span class="badge b2">NO CMS</span>
+      <span class="badge b3">POETIC &amp; INTRANSIGENT</span>
+      <span class="badge b1">VIEW SOURCE</span>
+      <span class="badge b2">STILL ONLINE</span>
+      <span class="badge b3">STILL WORKS</span>
+    </div>
+    <div class="footer-text">
+      J. R. Carpenter · March 2015<br>
+      <span class="blink">✦</span> a handmade web page about the handmade web <span class="blink">✦</span>
+    </div>
+  </footer>
 
-	Web 1.0 aesthetics persist in source code and stated objectives of the massive Ubu Web site, an "independent resource dedicated to all strains of the avant-garde, ethnopoetics, and outsider arts." On 16 December 2014, the founder of boasted on Twitter that "the whole damn site is still hand-coded in html 1.0 in bbedit, from templates made in 1996."
+</div><!-- end .page -->
 
-	I shall put off updating my website templates until out-of-date design is no longer cool.
+<script>
+  /* Starfield */
+  const sf = document.getElementById('sf');
+  const colors = ['#eec8ff','#ff69b4','#da8fff','#00e5ff','#ffe566','#ff1493'];
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top  = Math.random() * 100 + 'vh';
+    const sz = Math.random() < 0.25 ? 5 : 3;
+    s.style.width = s.style.height = sz + 'px';
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
+    sf.appendChild(s);
+  }
+</script>
 
-	I evoke the term 'handmade web' in order to draw attention both to the manual labour involved in the composition of web pages, and the functioning of the web page itself as a 'manual', a 'handbook', a set of instructions required for a computer program to run.
-
-	For most of its history web pages have been read on desktop or laptop computers. Readers have had the option of right-clicking on any page, selecting View Page Source, copying, pasting, and re-writing the source code. In this manner, readers become writers.
-
-	In February 2015, Matthew Rothberg created a website called Unindexed which continuously searched Google for itself. It survived for 22 days before being indexed, at which point it was permanently deleted. Rothberg has since shared the source code on GitHub, so you too can create a website which self-destructs the moment Google indexes it.
-
-	Dozens of readers have re-written the source code of Nick Montfort’s Taroko Gorge (2008). For many, this was their first experience 'making' a computer-generated text.
-
-	I have rewritten Taroko Gorge three times. Further to the close relation between the handmade web and ephemeral print materials, excerpts of output and source code from the first iteration, Gorge (2010), were published in my very small press print book GENERATION[S] (2010), which, I believe, is now only available as a PDF. Gorge is a never-ending tract of computer-generated text spewing verse approximations, poetic paroxysms on food, consumption, decadence, and desire.
-
-	I evoke the term 'handmade web' in order to draw attention to the physical body.
-
-	Consider the manual labour carried out by the mouse hand in Daniel Eatock's The One Mile Scroll (2008) A few entries appear at the top of the screen - Denver, The Mile High City - my grandfather’s grave, Denver - after that we scroll and scroll. The hand is made to work. Through the labour of the body the virtual space of the browser window is transformed into an actual, physical distance.
-
-	Ironically, handheld devices have distanced us from the handmade web. In Reading Writing Interfaces: From the Digital to the Bookbound (2014), Lori Emerson argues: "The iPad works because users can’t know how it works" (15). Reading the web on an iPhone, iPad, or similar device, readers do not have the option of viewing the page source. The iPad provides consumers with access to materials created by others, but cannot easily be used as a tool in the handcrafting of new materials.
-
-	I evoke the term 'handmade web' to suggest slowness and smallness as a forms of resistance.
-
-	In today's highly commercialised web of multinational corporations, proprietary applications, read-only devices, search algorithms, Content Management Systems, WYSIWYG editors, and digital publishers it becomes an increasingly radical act to hand-code and self-publish experimental web art and writing projects.
-
-	The more proprietary, predatory, and puerile a place the web becomes, the more committed I am to using it in poetic and intransigent ways.
-
-	J. R. Carpenter, March 2015.
 </body>
 </html>
