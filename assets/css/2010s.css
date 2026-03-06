@@ -14,3 +14,21 @@ body {
 	font-family: "AUTHENTIC Sans", sans-serif;
 	background-color: hsl(180deg, 100%, 50%);
 }
+.back-btn {
+  font-family: var(--pixel);
+  font-size: clamp(6px, 1.2vw, 8px);
+  color: var(--yellow);
+  background: var(--purple);
+  border: 2px solid var(--lavender);
+  padding: 6px 12px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 0 var(--dark-purple);
+}
+
+.back-btn:hover {
+  background: var(--hot-pink);
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
