@@ -53,25 +53,7 @@
       pointer-events: none;
       z-index: 9999;
     }
-
-    /* Stars */
-    .starfield {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .star {
-      position: fixed;
-      width: 3px;
-      height: 3px;
-      animation: tw 2.5s infinite alternate;
-    }
-    @keyframes tw {
-      from { opacity: 0.15; }
-      to   { opacity: 0.9; }
-    }
+    
 
     /* ── TOP MARQUEE ── */
     .marquee-bar {
@@ -143,7 +125,7 @@
       letter-spacing: 3px;
     }
 
-    /* ── PIXEL DIVIDER ── */
+
     .px-div {
       height: 6px;
       background: repeating-linear-gradient(
@@ -156,21 +138,19 @@
       margin: 28px 0;
     }
 
-    /* ── ARTICLE ── */
+
     article {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0;
     }
 
-    /* Each "block" = one keyed section */
     .section-block {
       padding: 28px 0;
       border-bottom: 2px dashed rgba(155,79,200,0.35);
     }
     .section-block:last-child { border-bottom: none; }
 
-    /* Section key label — FLEX row */
     .section-key {
       display: flex;
       align-items: center;
@@ -232,7 +212,6 @@
       letter-spacing: 1px;
     }
 
-    /* Inline links */
     a {
       color: var(--pink);
       text-decoration: none;
@@ -244,7 +223,6 @@
       border-color: var(--yellow);
     }
 
-    /* Inline emphasis */
     em {
       color: var(--lavender);
       font-style: italic;
@@ -512,23 +490,6 @@
 
 </div><!-- end .page -->
 
-<script>
-  /* Starfield */
-  const sf = document.getElementById('sf');
-  const colors = ['#eec8ff','#ff69b4','#da8fff','#00e5ff','#ffe566','#ff1493'];
-  for (let i = 0; i < 70; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.top  = Math.random() * 100 + 'vh';
-    const sz = Math.random() < 0.25 ? 5 : 3;
-    s.style.width = s.style.height = sz + 'px';
-    s.style.background = colors[Math.floor(Math.random() * colors.length)];
-    s.style.animationDelay = (Math.random() * 3) + 's';
-    s.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
-    sf.appendChild(s);
-  }
-</script>
 
 </body>
 </html>
