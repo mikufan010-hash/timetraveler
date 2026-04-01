@@ -72,6 +72,53 @@
 
 		}
 	}
+
+	<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .box {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    animation-name: box-story;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+  }
+
+  .box1 {
+    background-color: rgb(82, 82, 164); /* 蓝色 */
+    animation-direction: normal;
+	opacity: 0.5;
+  }
+
+  .box2 {
+    background-color: rgb(123, 89, 149); /* 红色 */
+    animation-direction: reverse; /* 反向播放，镜像效果 */
+	opacity: 0.5;
+  }
+
+  @keyframes box-story {
+    0%   { top: 0px;   left: 50px; }
+    10%  { top: 50px;  left: 50px; }
+    20%  { top: 50px;  left: 0px;  }
+    30%  { top: 0px;   left: 0px;  }
+    40%  { top: 0px;   left: 50px; }
+    50%  { top: 50px;  left: 50px; }
+    60%  { top: 50px;  left: 100px;}
+    70%  { top: 0px;   left: 100px;}
+    80%  { top: 0px;   left: 50px; }
+    90%  { top: 50px;  left: 50px; }
+    100% { top: 0px;   left: 50px; }
+  }
+</style>
+</head>
+<body>
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+</body>
+</html>
+
 </style>
 
 	
