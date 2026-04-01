@@ -11,7 +11,13 @@ header {
   padding: 2rem;
   border-bottom: 1px solid #2a2a3a;
 }
-
+.footer-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
 h1 {
   grid-column: 1;
   grid-row: 1;
@@ -42,11 +48,16 @@ header p {
   padding: 6px 14px;
 }
 
+
+
 @media (max-width: 600px) {
   header {
     grid-template-columns: 1fr;
   }
   .back-btn {
     grid-column: 1;
+  }
+  .container {
+    padding: 20px;
   }
 }
