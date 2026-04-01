@@ -65,3 +65,9 @@ header p {
   background-color: #22229c;
   color: rgb(246, 190, 227);
 }
+
+h1:hover {
+  color: white;
+  background-color: rgb(19, 6, 88);
+  cursor: pointer;
+}
