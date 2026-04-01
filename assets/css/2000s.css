@@ -91,3 +91,11 @@ a:active {
 .button:active {
     transform: scale(0.95);
 }
+/* 文本居中 */
+.container {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+}
