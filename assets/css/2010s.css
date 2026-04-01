@@ -41,3 +41,12 @@ header p {
   border: 1px solid #2a2a3a;
   padding: 6px 14px;
 }
+
+@media (max-width: 600px) {
+  header {
+    grid-template-columns: 1fr;
+  }
+  .back-btn {
+    grid-column: 1;
+  }
+}
