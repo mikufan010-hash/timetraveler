@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Space+Mono&display=swap');
+
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: start;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+h1 {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: normal;
+  font-style: italic;
+}
+
+header p {
+  grid-column: 1;
+  grid-row: 2;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.back-btn {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  font-family: 'Space Mono', monospace;
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  border: 1px solid #2a2a3a;
+  padding: 6px 14px;
+}
