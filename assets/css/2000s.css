@@ -1,116 +1,97 @@
-/* Add styles to all elements */
+
 * {
-	margin: 0; /* remove default margin from all elements */
-	padding: 0; /* remove default padding from all elements */
-	box-sizing: border-box; /* fix width calculation, more info here: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/box-sizing */
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
-
-/* Write your CSS below (feel free to change the styles already here) */
+ 
 body {
-	font-family: monospace;
-	background-color: rgb(0, 0, 0);
+	background: linear-gradient(135deg, #7d7dc0, #c07db0);
+	color: rgb(0, 0, 0);
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 40px;
+	line-height: 1.6;
 }
-
-
-body {
-        background: linear-gradient(135deg, #7d7dc0, #c07db0);
-    color: rgb(0, 0, 0);
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 40px;
-    line-height: 1.6;
-}
-
-
+ 
 h1 {
-    font-size: 40px;
-    letter-spacing: 2px;
-  
-    padding-bottom: 10px;
+	font-size: 40px;
+	letter-spacing: 2px;
+	padding-bottom: 10px;
+	text-align: center;
 }
-
-
+ 
 .container {
-    width: 700px;
-    border: 1px solid black;
-    padding: 20px;
-    position: relative;
+	width: 700px;
+	background-color: rgba(255, 255, 255, 0.75);
+	border: 2px solid rgb(94, 21, 167);
+	padding: 30px;
+	position: relative;
+	text-align: left;
 }
-
-
+ 
 .badge {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    background: rgb(35, 3, 56);
-    color: white;
-    padding: 10px;
-    font-size: 12px;
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	background: rgb(35, 3, 56);
+	color: white;
+	padding: 10px;
+	font-size: 12px;
 }
-
-
+ 
 a {
-    color: black;
-    text-decoration: underline;
+	color: black;
+	text-decoration: underline;
 }
-
+ 
 a:hover {
-    background-color: rgb(0, 0, 0);
-    color: white;
+	background-color: rgb(0, 0, 0);
+	color: white;
 }
-
+ 
 a:active {
-    background-color: gray;
-    color: white;
+	background-color: gray;
+	color: white;
 }
-
-
+ 
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+	0%   { opacity: 1; }
+	50%  { opacity: 0; }
+	100% { opacity: 1; }
 }
-
+ 
 .blinking {
-    animation: blink 1s infinite;
+	animation: blink 1s infinite;
 }
-
-
+ 
 .button {
-    display: inline-block;
-    border: 1px solid rgb(0, 0, 0);
-    padding: 8px 12px;
-    margin-top: 20px;
-    cursor: pointer;
+	display: inline-block;
+	border: 1px solid rgb(0, 0, 0);
+	padding: 8px 12px;
+	margin-top: 20px;
+	cursor: pointer;
 }
-
+ 
 .button:hover {
-    background: rgb(40, 42, 54);
-    color: white;
+	background: rgb(40, 42, 54);
+	color: white;
 }
-
+ 
 .button:active {
-    transform: scale(0.95);
+	transform: scale(0.95);
 }
-/* 文本居中 */
-.container {
-  text-align: center;
-}
-
-h1 {
-  text-align: center;
-}
-
+ 
 @keyframes color-flash {
-  0%   { color: rgb(179, 86, 188); }
-  14%  { color: rgb(162, 67, 170); }
-  28%  { color: rgb(157, 91, 151); }
-  42%  { color: rgb(66, 65, 166); }
-  56%  { color: rgb(119, 119, 178); }
-  70%  { color: indigo; }
-  85%  { color: violet; }
-  100% { color: white; }
+	0%   { color: rgb(179, 86, 188); }
+	14%  { color: rgb(162, 67, 170); }
+	28%  { color: rgb(157, 91, 151); }
+	42%  { color: rgb(66, 65, 166); }
+	56%  { color: rgb(119, 119, 178); }
+	70%  { color: indigo; }
+	85%  { color: violet; }
+	100% { color: white; }
 }
-
+ 
 p {
-  animation: color-flash 5s infinite;
+	animation: color-flash 5s infinite;
 }
